@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: "postgres:15.2"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+      POSTGRES_DB: db
+    restart: "unless-stopped"
+  psql-proxy:
+    image: "golang:1.21.2"
+    command: ["go", "run", "github.com/cloudproud/psql-proxy@latest", "-l", ":2345", "-d", "postgres:5432"]
+    restart: "unless-stopped"
+    volumes:
+      - gocache:/root/.cache/go-build
+    depends_on:
+      - postgres
+  example:
+    image: "golang:1.21.2"
+    command: ["go", "run", "./"]
+    volumes:
+      - ./:/app
+      - gocache:/root/.cache/go-build
+    working_dir: /app
+    restart: "no"
+    depends_on:
+      - psql-proxy
+    environment:
+      POSTGRES_DSN: "postgres://user:password@psql-proxy:2345/db?sslmode=disable"
+
+volumes:
+  gocache: ~
