@@ -14,6 +14,7 @@ services:
     restart: "unless-stopped"
     volumes:
       - gocache:/root/.cache/go-build
+      - gomodcache:/go/pkg/mod
     depends_on:
       - postgres
   example:
@@ -22,6 +23,7 @@ services:
     volumes:
       - ./:/app
       - gocache:/root/.cache/go-build
+      - gomodcache:/go/pkg/mod
     working_dir: /app
     restart: "no"
     depends_on:
@@ -31,3 +33,4 @@ services:
 
 volumes:
   gocache: ~
+  gomodcache: ~
