@@ -11,7 +11,7 @@ import (
 func main() {
 	ctx := context.Background()
 	dsn := os.Getenv("POSTGRES_DSN")
-	slog.Info("connectiong to postgres server", slog.String("url", dsn))
+	slog.Info("connecting to postgres server", slog.String("url", dsn))
 	conn, err := pgx.Connect(ctx, dsn)
 	if err != nil {
 		panic(err)
