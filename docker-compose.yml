@@ -7,6 +7,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: user
       POSTGRES_DB: db
+      POSTGRES_HOST_AUTH_METHOD: md5
     restart: "unless-stopped"
   psql-proxy:
     image: "golang:1.21.2"
