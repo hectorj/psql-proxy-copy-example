@@ -7,11 +7,10 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: user
       POSTGRES_DB: db
-      POSTGRES_HOST_AUTH_METHOD: md5
     restart: "unless-stopped"
   psql-proxy:
     image: "golang:1.21.2"
-    command: ["go", "run", "github.com/cloudproud/psql-proxy@latest", "-l", ":2345", "-d", "postgres:5432"]
+    command: ["go", "run", "github.com/cloudproud/psql-proxy@latest", "-l", ":2345", "-d", "postgres:5432", "-tls"]
     restart: "unless-stopped"
     volumes:
       - gocache:/root/.cache/go-build
